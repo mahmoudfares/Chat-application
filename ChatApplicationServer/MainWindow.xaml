@@ -1,0 +1,117 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ChatApplicationServer"
+        xmlns:viewModel="clr-namespace:ChatApplicationAppLibrary.ViewModel;assembly=ChatApplicationAppLibrary"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        x:Class="ChatApplicationServer.MainWindow"
+        ResizeMode="NoResize"
+        mc:Ignorable="d"
+        WindowStyle="SingleBorderWindow"
+        Title="NOTs Chat application serverside" Height="600" Width="800" BorderBrush="#FF673AB7"
+    >
+    <Window.DataContext>
+        <viewModel:ServerViewModel/>
+    </Window.DataContext>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*" />
+            <ColumnDefinition Width="3*" />
+        </Grid.ColumnDefinitions>
+        <GroupBox Grid.Row="0" Padding="10" Margin="10" >
+            <GroupBox.Header>
+                <StackPanel Orientation="Horizontal">
+                    <materialDesign:PackIcon Kind="Settings" Foreground="White"/>
+                    <TextBlock Text=" Settings" Foreground="White"/>
+                </StackPanel>
+            </GroupBox.Header>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <Label Content="Name"/>
+                <Label Grid.Row="1" Content="Port"/>
+                <Label Grid.Row="2" Content="Buffer Size"/>
+
+
+                <TextBox IsEnabled="{Binding Server.EnaleSettingsEditing, Mode=OneWay}" MaxLength="50" x:Name="ServerName" Grid.Column="1" Text="{Binding Server.Name}" PreviewKeyUp="ServerPort_PreviewKeyUp" Margin="5"/>
+                <TextBox IsEnabled="{Binding Server.EnaleSettingsEditing, Mode=OneWay}" MaxLength="5" x:Name="ServerPort" Grid.Row="1" Grid.Column="1" Text="{Binding Server.PortNumber}" PreviewKeyUp="ServerPort_PreviewKeyUp" PreviewTextInput="InputNumberValidator"  Margin="5"/>
+                <TextBox MaxLength="4" x:Name="ServerBufferSize" Grid.Row="2" Grid.Column="1" Text="{Binding Server.BufferSize}"  PreviewKeyUp="ServerPort_PreviewKeyUp" PreviewTextInput="InputNumberValidator"  Margin="5" />
+
+                <Button x:Name="StartStopServerButton" Command="{Binding MyButtonClickCommand}" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" Padding="5" Margin="10">
+                    <StackPanel Orientation="Horizontal">
+                        <materialDesign:PackIcon Kind="LanConnect" Foreground="White"/>
+                        <TextBlock Text=" " Foreground="White"/>
+                        <TextBlock Text="{Binding Server.StartStopButtonText, Mode=OneWay}" Foreground="White"/>
+                    </StackPanel>
+                </Button>
+            </Grid>
+        </GroupBox>
+
+        <GroupBox Grid.Row="1" Padding="10" Margin="10">
+            <GroupBox.Header>
+                <StackPanel Orientation="Horizontal">
+                    <materialDesign:PackIcon Kind="Users" Foreground="White"/>
+                    <TextBlock Text=" Clients" Foreground="White"/>
+                </StackPanel>
+            </GroupBox.Header>
+            <ListView ItemsSource="{Binding Server.Clients}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel>
+                            <TextBlock Text="{Binding Name}"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </GroupBox>
+
+        <GroupBox Grid.Row="2" Header="Send Message" Padding="10" Margin="10">
+            <StackPanel Orientation="Vertical">
+                <Label Margin="5" Content="Message"/>
+                <TextBox Text="{Binding Server.ToSendMessage}" x:Name="ToSendMessage" Margin="5" />
+                <Button Command="{Binding SendMessageCommand}" x:Name="btnSend" Padding="5" Margin="10" >
+                    <StackPanel Orientation="Horizontal">
+                        <materialDesign:PackIcon Kind="Send"/>
+                        <TextBlock Text=" SEND"/>
+                    </StackPanel>
+                </Button>
+            </StackPanel>
+        </GroupBox>
+
+        <GroupBox Grid.Row="0" Grid.Column="1" Grid.RowSpan="3" Padding="10" Margin="10">
+            <GroupBox.Header>
+                <StackPanel Orientation="Horizontal">
+                    <materialDesign:PackIcon Kind="ChatBubble" Foreground="White"/>
+                    <TextBlock Text=" Chat" Foreground="White"/>
+                </StackPanel>
+            </GroupBox.Header>
+            <ListView ItemsSource="{Binding Server.Messages}" Tag="_chatView">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel>
+                            <TextBlock Text="{Binding WPFMessage}" />
+                        </StackPanel>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </GroupBox>
+    </Grid>
+</Window>
