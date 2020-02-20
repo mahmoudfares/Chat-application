@@ -14,14 +14,14 @@ namespace ChatApplicationAppLibrary.Model
 {
     public class ServerModel: INotifyPropertyChanged
     {
-        public ObservableCollection<Message> Messages { get; private set; }
-        private bool active = false;
-        public ObservableCollection<ClientOnServerSide> Clients { get; set; }
-        private int bufferSize = (int) Settings.MaximumBufferSize;
-        private int portNumber = (int) Settings.MinimumAllowedPortNumber;
-        private string name = "Nots server";
+        public ObservableCollection<Message> Messages { get; private set; } = new ObservableCollection<Message>();
+        public ObservableCollection<ClientOnServerSide> Clients { get; set; } = new ObservableCollection<ClientOnServerSide>();
+        int bufferSize = (int) Settings.MaximumBufferSize;
+        int portNumber = (int) Settings.MinimumAllowedPortNumber;
+        string name = "Nots server";
         public bool EnaleSettingsEditing { get => !active;}
         string toSendMessage = "";
+        bool active = false;
 
         public string StartStopButtonText { 
             get
@@ -37,6 +37,8 @@ namespace ChatApplicationAppLibrary.Model
             get => active;
             set { 
                 active = value;
+
+                //Change the other properties in the UI when this changes 
                 OnPropertyChanged("EnaleSettingsEditing");
                 OnPropertyChanged("StartStopButtonText");
             }
@@ -93,14 +95,11 @@ namespace ChatApplicationAppLibrary.Model
             }
         } 
 
-        public ServerModel()
-        {
-            Messages = new ObservableCollection<Message>();
-            Clients = new ObservableCollection<ClientOnServerSide>();
-        }
+        
 
         public event PropertyChangedEventHandler PropertyChanged;
 
+        //Updates the property in the UI.
         [NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {

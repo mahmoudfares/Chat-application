@@ -55,7 +55,7 @@
                 <TextBox IsEnabled="{Binding Server.EnaleSettingsEditing, Mode=OneWay}" MaxLength="5" x:Name="ServerPort" Grid.Row="1" Grid.Column="1" Text="{Binding Server.PortNumber}" PreviewKeyUp="ServerPort_PreviewKeyUp" PreviewTextInput="InputNumberValidator"  Margin="5"/>
                 <TextBox MaxLength="4" x:Name="ServerBufferSize" Grid.Row="2" Grid.Column="1" Text="{Binding Server.BufferSize}"  PreviewKeyUp="ServerPort_PreviewKeyUp" PreviewTextInput="InputNumberValidator"  Margin="5" />
 
-                <Button x:Name="StartStopServerButton" Command="{Binding MyButtonClickCommand}" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" Padding="5" Margin="10">
+                <Button x:Name="StartStopServerButton" Command="{Binding StartStopButtonCommand}" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" Padding="5" Margin="10">
                     <StackPanel Orientation="Horizontal">
                         <materialDesign:PackIcon Kind="LanConnect" Foreground="White"/>
                         <TextBlock Text=" " Foreground="White"/>

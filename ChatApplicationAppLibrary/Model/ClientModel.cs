@@ -1,5 +1,8 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using ChatApplicationAppLibrary.Annotations;
@@ -7,26 +10,23 @@ using ChatApplicationAppLibrary.Model.Enums;
 
 namespace ChatApplicationAppLibrary.Model
 {
-    public class ClientModel: INotifyPropertyChanged
+    public class ClientModel : INotifyPropertyChanged
     {
-        public ObservableCollection<string> Messages { get; private set; }
-        private bool active = false;
-        private int bufferSize = (int) Settings.MaximumBufferSize;
-        private int portNumber = (int) Settings.MinimumAllowedPortNumber;
-        private string name = "User one";
-        private string toSendMessage;
+        public ObservableCollection<string> Messages { get; private set; } = new ObservableCollection<string>();
+        bool active = false;
+        int bufferSize = (int)Settings.MaximumBufferSize;
+        int portNumber = (int)Settings.MinimumAllowedPortNumber;
+        string toSendMessage;
         public bool EnaleSettingsEditing { get => !active; }
-        private string ipAddress = "www.han.nl";
+        public string IpAddress { get; private set; } = "127.0.0.1";
+        List<string> Names { get; set; } = new List<string>() { "Mahmoud", "Roy", "Corine", "Marijn", "Ido", "Chris", "Suli", "Jesse", "Daan" };
+        string name;
 
-        public string IpAddress
+        public ClientModel()
         {
-            get => ipAddress;
-            set
-            {
-                ipAddress = value;
-                OnPropertyChanged();
-            }
+            name = Names.ElementAt(new Random().Next(0, Names.Count()));
         }
+
         public string ConnectDisconnectButtonText
         {
             get
@@ -38,16 +38,13 @@ namespace ChatApplicationAppLibrary.Model
             }
         }
 
-
-        public ClientModel()
-        {
-            Messages = new ObservableCollection<string>();
-        }
         public bool Active
         {
             get => active;
             set { 
                 active = value;
+
+                //Change the other properties in the UI when this changes 
                 OnPropertyChanged("EnaleSettingsEditing");
                 OnPropertyChanged("ConnectDisconnectButtonText");
             }
@@ -106,6 +103,7 @@ namespace ChatApplicationAppLibrary.Model
 
         public event PropertyChangedEventHandler PropertyChanged;
 
+        //Updates the property in the UI.
         [NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
