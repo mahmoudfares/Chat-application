@@ -1,6 +1,9 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\ChatApplicationAppLibrary",
+    "\\ChatApplicationAppLibrary\\Model"
   ],
+  "SelectedNode": "\\ChatApplicationApp.sln",
   "PreviewInSolutionExplorer": false
 }
