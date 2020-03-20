@@ -1,0 +1,107 @@
+﻿<Window xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"  x:Class="Proxy_server_app.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Proxy_server_app"
+        xmlns:Viewmodel="clr-namespace:Proxy_server_app.ViewModel"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="800" Width="800">
+
+    <Window.DataContext>
+        <Viewmodel:ServerViewModel/>
+    </Window.DataContext>
+    
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="100" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="100" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <ListView x:Name="LogListBox" Margin="10" Grid.Row="0" Grid.RowSpan="3" ItemsSource="{Binding Server.Log}">
+        </ListView>
+
+        <Button x:Name="ClearLogButton" Grid.Row="3" Margin="10 0 10 0" Command="{Binding ClearLogButtonCommand}">
+            <StackPanel Orientation="Horizontal" >
+                <materialDesign:PackIcon Kind="Eraser" />
+                <TextBlock Text=" Claer log" Foreground="White"/>
+            </StackPanel>
+        </Button>
+
+        <Button x:Name="StartStopSerrver" Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="2" Margin="10 0 10 0" Command="{Binding StartStopButtonCommand}">
+            <StackPanel Orientation="Horizontal" >
+                <materialDesign:PackIcon Kind="LanConnect" />
+                <TextBlock Text="{Binding Server.StartStopButtonText, Mode=OneWay}" Foreground="White"/>
+            </StackPanel>
+        </Button>
+        <StackPanel Grid.Row="1" Grid.Column="1" Grid.RowSpan="3" Margin="10" Orientation="Vertical">
+            <GroupBox Height="640" Margin="0">
+                <GroupBox.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <materialDesign:PackIcon Kind="Settings" Foreground="White"/>
+                        <TextBlock Text=" Settings" Foreground="White"/>
+                    </StackPanel>
+                </GroupBox.Header>
+
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Label Content="Proxy port: " Margin="10"/>
+                    <TextBox x:Name="ProxyPort" Grid.Column="1" Text="{Binding Server.PortNumber}" Margin="10"/>
+
+                    <Label Content="Cahe timeout: " Margin="10" Grid.Row="1"/>
+                    <TextBox x:Name="CachTimeout" Grid.Column="1" Text="{Binding Server.CacheTimeout}" Margin="10" Grid.Row="1"/>
+
+                    <Label Content="Buffer size: " Margin="10" Grid.Row="2"/>
+                    <TextBox x:Name="BufferSize" Grid.Column="1" Text="{Binding Server.BufferSize, Mode=TwoWay}" Margin="10" Grid.Row="2"/>
+
+                    <StackPanel Orientation="Horizontal" Grid.Row="3" Grid.ColumnSpan="2">
+                        <CheckBox x:Name="ContentFilter" IsChecked="{Binding Server.ContentFilter}" />
+                        <Label Content="Content filter aan/uit" Margin="0 15 0 0"/>
+                    </StackPanel>
+                    
+                                      
+                    <StackPanel Orientation="Horizontal" Grid.Row="4" Grid.ColumnSpan="2">
+                        <CheckBox x:Name="RequestHeadersInLog"  IsChecked="{Binding Server.RequestHeadersLogging, Mode=TwoWay}"/>
+                        <Label Content="Logging request headers aan/uit" Margin="0 15 0 0"/>
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal" Grid.Row="5" Grid.ColumnSpan="2">
+                        <CheckBox x:Name="ResponseHeadersInLog"  IsChecked="{Binding Server.ResponseHeadersLogging}"/>
+                        <Label Content="Logging Response headers aan/uit" Margin="0 15 0 0"/>
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal" Grid.Row="6" Grid.ColumnSpan="2">
+                        <CheckBox x:Name="HideUserAgent"  IsChecked="{Binding Server.HideUserAgent}"/>
+                        <Label Content="Hide user agent aan/uit" Margin="0 15 0 0"/>
+                    </StackPanel>
+
+                </Grid>
+            </GroupBox>
+        </StackPanel>
+    </Grid>
+
+
+</Window>

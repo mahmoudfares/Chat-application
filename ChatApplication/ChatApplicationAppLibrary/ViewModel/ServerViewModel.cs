@@ -55,10 +55,9 @@ namespace ChatApplicationAppLibrary.ViewModel
                     return;
                 }
 
-                IntiizeTcpListner();
+                InitializeTcpListener();
 
-                Thread beginAcceptClientThread = new Thread(BeginAcceptClients);
-                beginAcceptClientThread.Start();
+                BeginAcceptClients();
 
                 await Task.Run(ReadFromAllClients);
             }catch(Exception e)
@@ -140,13 +139,13 @@ namespace ChatApplicationAppLibrary.ViewModel
         }
 
         //Keep accepting cliets. 
-        void BeginAcceptClients()
+        async void BeginAcceptClients()
         {
             while (true)
             {
                 try
                 {
-                    TcpClient tcpClient = tcpListener.AcceptTcpClient();
+                    TcpClient tcpClient = await tcpListener.AcceptTcpClientAsync();
                     ReadNameFromClient(tcpClient);
                 }
                 catch (Exception e)
@@ -211,7 +210,7 @@ namespace ChatApplicationAppLibrary.ViewModel
         }
 
         //Start the server. 
-        private void IntiizeTcpListner()
+        private void InitializeTcpListener()
         {
             try
             {
@@ -247,7 +246,6 @@ namespace ChatApplicationAppLibrary.ViewModel
                         Console.WriteLine(e.Message);
                     }
                 }
-                ProcessThreadCollection currentThreads = Process.GetCurrentProcess().Threads;
             }
         }
 

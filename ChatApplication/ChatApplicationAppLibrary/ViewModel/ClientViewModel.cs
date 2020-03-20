@@ -20,12 +20,13 @@ namespace ChatApplicationAppLibrary.ViewModel
     {
         TcpClient TcpClient;
 
-        public ClientModel Client { get; set; }
 
         NetworkStream network;
 
         //Thread of the UI
         SynchronizationContext uiContext = SynchronizationContext.Current;
+
+        public ClientModel Client { get; set; }
 
 
         public ClientViewModel()
